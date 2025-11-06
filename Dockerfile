@@ -7,5 +7,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD ["python", "-m", "pytest", "test_scheduler.py", "-v"]
+CMD ["python", "-m", "pytest", "test_cart.py", "-v"]
 
