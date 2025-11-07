@@ -6,24 +6,20 @@ CATEGORY_DISCOUNTS = {
 
 LOYALTY_DISCOUNT = 0.05
 
-_discount_cache = {}
-
 def calculate_discount(product, is_loyal_customer=False):
-    cache_key = (id(product), is_loyal_customer)
+    # Calculate fresh every time - no caching
+    base_price = product.price
     
-    if cache_key in _discount_cache:
-        return _discount_cache[cache_key]
-    
+    # Apply category discount
     category_discount = CATEGORY_DISCOUNTS.get(product.category, 0)
-    price_after_category = product.apply_category_discount(category_discount)
+    if category_discount > 0:
+        base_price *= (1 - category_discount)
     
+    # Apply loyalty discount on already-discounted price
     if is_loyal_customer:
-        final_price = price_after_category * (1 - LOYALTY_DISCOUNT)
-    else:
-        final_price = price_after_category
+        base_price *= (1 - LOYALTY_DISCOUNT)
     
-    result = round(final_price, 2)
-    _discount_cache[cache_key] = result
+    result = round(base_price, 2)
     return result
 
 def get_discount_info(product):
@@ -31,9 +27,6 @@ def get_discount_info(product):
     return {
         "category": product.category,
         "discount_rate": category_discount,
-        "original_price": product.get_base_price()
+        "original_price": product.price
     }
 
-def clear_cache():
-    global _discount_cache
-    _discount_cache = {}
