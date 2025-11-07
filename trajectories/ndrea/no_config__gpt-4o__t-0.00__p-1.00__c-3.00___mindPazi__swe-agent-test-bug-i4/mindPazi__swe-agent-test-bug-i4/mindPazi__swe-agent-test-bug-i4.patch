@@ -1,0 +1,19 @@
+diff --git a/product.py b/product.py
+index c3d34d8..d86e01f 100644
+--- a/product.py
++++ b/product.py
+@@ -9,9 +9,8 @@ class Product:
+         return self.price
+     
+     def apply_category_discount(self, discount_rate):
+-        if self._cached_discount is None:
+-            self._cached_discount = self.price * discount_rate
+-        return self.price - self._cached_discount
++        discount_amount = self.price * discount_rate
++        return self.price - discount_amount
+     
+     def __repr__(self):
+         return f"Product({self.name}, ${self.price}, {self.category})"
+diff --git a/reproduce_error.py b/reproduce_error.py
+new file mode 100644
+index 0000000..e69de29
