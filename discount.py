@@ -7,15 +7,15 @@ CATEGORY_DISCOUNTS = {
 LOYALTY_DISCOUNT = 0.05
 
 def calculate_discount(product, is_loyal_customer=False):
-    # Calculate fresh every time - no caching
+    
     base_price = product.price
     
-    # Apply category discount
+    
     category_discount = CATEGORY_DISCOUNTS.get(product.category, 0)
     if category_discount > 0:
         base_price *= (1 - category_discount)
     
-    # Apply loyalty discount on already-discounted price
+    
     if is_loyal_customer:
         base_price *= (1 - LOYALTY_DISCOUNT)
     
